@@ -1,0 +1,7 @@
+{
+  "name": "cart",
+  "type": "module",
+  "dependencies": {
+    "jest": "^28.1.3"
+  }
+}
