@@ -1,12 +1,14 @@
 export class Checkout {
-  constructor(pricingRules = 0.9)
+  constructor(pricingRules)
   {
     this.adCart = [];
+    this.adQuantity = [];
     this.pricingRules = pricingRules;
   }
 
   add(ad) {
     this.adCart.push(ad);
+    this.adQuantity[ad.name] += 1;
   }
 
   total() {
