@@ -26,9 +26,7 @@ export class Checkout {
   total() {
     let productPrice = -1;
     let totalPrice = 0;
-    const min = (a, b) => {
-      return a < b ? a : b;
-    };
+
     this.adCart.forEach((ad) => {
       productPrice = ad.price * ad.quantity;
       // for each ad
@@ -53,7 +51,8 @@ export class Checkout {
                 retPrice = (fullPriceQuantity + dealQuantity) * ad.price;
                 break;
               case 'priceDrop':
-                retPrice = min(ad.price, rule.discountedPrice) * ad.quantity;
+                console.log('我我我')
+                retPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
                 break;
               default:
                 break;
@@ -62,33 +61,36 @@ export class Checkout {
           };
           if (rules.length === 1) {
             // one rule match
-            productPrice = min(productPrice, getRulePrice(rules[0]));
+            productPrice = Math.min(productPrice, getRulePrice(rules[0]));
           } else if (rules.length > 1) {
             // multiple rules match
             let multiPurchasesRule;
             let priceDropRule;
             rules.forEach((rule) => {
-              if (rule.rulesType === 'multiPurchases')
+              if (rule.rulesType === 'multiPurchases') {
                 multiPurchasesRule = rule;
-              if (rule.rulesType === 'priceDrop') priceDropRule = rule;
-              productPrice = min(productPrice, getRulePrice(rule));
+              }
+              if (rule.rulesType === 'priceDrop') {
+                priceDropRule = rule;
+              }
+              productPrice = Math.min(productPrice, getRulePrice(rule));
             });
             // priceDrop & multiPurchases
-            let fullPriceQuantity =
-              ad.quantity % multiPurchasesRule.quantityPriceBase;
-            let dealQuantity =
-              Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) *
-              multiPurchasesRule.quantityPriceCharge;
-            productPrice = min(
-              productPrice,
-              dealQuantity * ad.price +
-                fullPriceQuantity * priceDropRule.discountedPrice
-            );
+            let fullPriceQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
+            let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
+            productPrice = Math.min(productPrice, dealQuantity * ad.price + fullPriceQuantity * priceDropRule.discountedPrice);
           }
         });
       totalPrice += productPrice;
     });
-    const result = (totalPrice / 100).toFixed(2)
+
+    let result = (totalPrice / 100)
+    if (Number.isInteger(result)) {
+      result = result.toFixed(2);
+    } else {
+      result = result.toString();
+    }
     return result;
+
   }
 }

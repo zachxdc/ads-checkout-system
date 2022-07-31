@@ -29,7 +29,7 @@ export const pricingRules = [
       },
       { rulesType: 'priceDrop', 
         name: 'Classic AD', 
-        discountedPrice: 1 },
+        discountedPrice: 38999 },
     ],
   },
 ];
