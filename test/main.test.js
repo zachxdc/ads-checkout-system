@@ -59,10 +59,13 @@ describe('Axil Coffee Roasters purchases the ads', () => {
       const premiumAd = new Ad(ad[2].name, ad[2].retailPrice);
     
       checkout.add(standOutAd);
+      checkout.add(standOutAd);
+      checkout.add(standOutAd);
+      checkout.add(premiumAd);
 
       return checkout.total();
     }
     
-    expect(myerCart()).toBe('299.99');
+    expect(myerCart()).toBe('1294.96');
   });
 });

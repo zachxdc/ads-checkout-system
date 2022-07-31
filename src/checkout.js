@@ -38,27 +38,28 @@ export class Checkout {
         .forEach((pricingRule) => {
           // find rules match ad name
           const rules = pricingRule.rules.filter((rule) => {
-            return rule.name === ad.name;
+            return rule.name === ad.name; 
           });
+          console.log('rule1', rules);//TODO: no rules
           // find min price
           const getRulePrice = (rule) => {
-            let retPrice = -1;
+            let retailPrice = -1;
             switch (rule.rulesType) {
               case 'multiPurchases':
                 let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
-                let dealQuantity =
-                  Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
-                retPrice = (fullPriceQuantity + dealQuantity) * ad.price;
+                let dealQuantity = Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
+                retailPrice = (fullPriceQuantity + dealQuantity) * ad.price;
                 break;
               case 'priceDrop':
-                console.log('我我我')
-                retPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
+                console.log('TEST')
+                retailPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
                 break;
               default:
                 break;
             }
-            return retPrice;
+            return retailPrice;
           };
+          console.log('rules', rules); //TODO: no rules
           if (rules.length === 1) {
             // one rule match
             productPrice = Math.min(productPrice, getRulePrice(rules[0]));
