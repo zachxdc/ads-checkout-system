@@ -1,15 +1,16 @@
 import { pricingRules } from '../data/pricingRules.js';
 
 export class Checkout {
+
   constructor(pricingRules) {
-    this.adCart = [];
-    this.pricingRules = pricingRules;
+      this.adCart = [];
+      this.pricingRules = pricingRules;
   }
 
   add(ad) {
-    const index = this.adCart.findIndex((item) => {
+      const index = this.adCart.findIndex((item) => {
       return item.name === ad.name;
-    });
+  });
     if (index === -1) {
       // not in
       this.adCart.push({
@@ -21,14 +22,6 @@ export class Checkout {
       this.adCart[index].quantity++;
     }
   }
-
-  // total() {
-  //   const totalPrice = this.adCart.reduce(
-  //     (total, ad) => total + (ad.price * ad.quantity * this.pricingRules) / 100,
-  //     0
-  //   );
-  //   return totalPrice;
-  // }
 
   total() {
     let productPrice = -1;
@@ -56,8 +49,7 @@ export class Checkout {
               case 'multiPurchases':
                 let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
                 let dealQuantity =
-                  Math.floor(ad.quantity / rule.quantityPriceBase) *
-                  rule.quantityPriceCharge;
+                  Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
                 retPrice = (fullPriceQuantity + dealQuantity) * ad.price;
                 break;
               case 'priceDrop':
@@ -96,6 +88,7 @@ export class Checkout {
         });
       totalPrice += productPrice;
     });
-    return totalPrice;
+    const result = (totalPrice / 100).toFixed(2)
+    return result;
   }
 }
