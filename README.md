@@ -24,51 +24,46 @@ There is a small number of privileged customers are eligible to checkout the ads
 
 ## Prerequisite
 
-- node v16.15.1+ (Download link: https://nodejs.org/en/download/)
-- npm v8.11.0+ (Installation instruction: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+1. node v16.15.1+ (Download link: https://nodejs.org/en/download/)
+
+2. npm v8.11.0+ (Installation instruction: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ## Installation
 
 1. Clone the project: 
-
    `git clone https://github.com/zachxdc/ads-checkout-system`
 
 2. Enter the project folder: 
-
    `ads-checkout-system`
 
 3. Install packages that project dependencies: 
-
    `npm ci`
 
 ## Running instruction
 
-- Configure customer id:
+1. Configure customer id:
     You can simply change the customerId value by editing this line, `const customerId = '2';` in `src/main.js`.
     You can find all customer ids in `data/customers.js`.
 
-- Configure checkout ads:
+2. Configure checkout ads:
     You can update ads for checkout by editing `main()` in `src/main.js`.
     You can find all customer ids in `data/customers.js`.
     To add a Classic Ad: `checkout.add(classicAd);`.
     To add a Stand out Ad: `checkout.add(standOutAd);`.
     To add a Premium Ad: `checkout.add(premiumAd);`.
 
-- Run with npm script:
-
+3. Run with npm script:
     `npm start`
 
-- Run with node:
-
+4. Run with node:
     `node src/main.js`
 
-- Run all unit tests in this repository:
-
+5. Run all unit tests in this repository:
     `npm run test`
 
-- Run specific unit test:
-
+6. Run specific unit test:
     `npm run [test_file_path]`
+
 ## File Structure
 
     .
@@ -99,3 +94,4 @@ e.g. Classic Ad is $100. The customer, David has promotions for Classic Ad with 
 
 ## Limitation
 1. There is no validation on the data or params used for functions, which means that the program cannot handle inappropriate input.
+
