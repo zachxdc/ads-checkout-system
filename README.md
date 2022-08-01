@@ -45,11 +45,11 @@ There is a small number of privileged customers are eligible to checkout the ads
 
 - Configure customer id:
     You can simply change the customerId value by editing this line, `const customerId = '2';` in `src/main.js`.
-    You can find all customer ids in `data/customer.js`.
+    You can find all customer ids in `data/customers.js`.
 
 - Configure checkout ads:
     You can update ads for checkout by editing `main()` in `src/main.js`.
-    You can find all customer ids in `data/customer.js`.
+    You can find all customer ids in `data/customers.js`.
     To add a Classic Ad: `checkout.add(classicAd);`.
     To add a Stand out Ad: `checkout.add(standOutAd);`.
     To add a Premium Ad: `checkout.add(premiumAd);`.
@@ -70,8 +70,8 @@ There is a small number of privileged customers are eligible to checkout the ads
 
     .
     ├── data
-    │   ├── ad.js
-    │   ├── customer.js
+    │   ├── ads.js
+    │   ├── customers.js
     │   ├── pricingRules.js
     ├── src
     │   ├── ad.js
