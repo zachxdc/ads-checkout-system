@@ -1,5 +1,4 @@
 import { pricingRules } from '../data/pricingRules.js';
-
 export class Checkout {
 
   constructor(pricingRules) {
@@ -23,8 +22,25 @@ export class Checkout {
     }
   }
 
+  getRulePrice(rule, ad) {
+    let retailPrice = 0;
+    switch (rule.rulesType) {
+      case 'multiPurchases':
+        let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
+        let dealQuantity = Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
+        retailPrice = (fullPriceQuantity + dealQuantity) * ad.price;
+        break;
+      case 'priceDrop':
+        retailPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
+        break;
+      default:
+        break;
+    }
+    return retailPrice;
+  };
+
   total() {
-    let productPrice = -1;
+    let productPrice = 0;
     let totalPrice = 0;
 
     this.adCart.forEach((ad) => {
@@ -37,32 +53,15 @@ export class Checkout {
         })
         .forEach((pricingRule) => {
           // find rules match ad name
+
+
+
           const rules = pricingRule.rules.filter((rule) => {
             return rule.name === ad.name; 
           });
-          console.log('rule1', rules);//TODO: no rules
-          // find min price
-          const getRulePrice = (rule) => {
-            let retailPrice = -1;
-            switch (rule.rulesType) {
-              case 'multiPurchases':
-                let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
-                let dealQuantity = Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
-                retailPrice = (fullPriceQuantity + dealQuantity) * ad.price;
-                break;
-              case 'priceDrop':
-                console.log('TEST')
-                retailPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
-                break;
-              default:
-                break;
-            }
-            return retailPrice;
-          };
-          console.log('rules', rules); //TODO: no rules
           if (rules.length === 1) {
             // one rule match
-            productPrice = Math.min(productPrice, getRulePrice(rules[0]));
+            productPrice = Math.min(productPrice, this.getRulePrice(rules[0], ad));
           } else if (rules.length > 1) {
             // multiple rules match
             let multiPurchasesRule;
@@ -74,13 +73,18 @@ export class Checkout {
               if (rule.rulesType === 'priceDrop') {
                 priceDropRule = rule;
               }
-              productPrice = Math.min(productPrice, getRulePrice(rule));
+              productPrice = Math.min(productPrice, this.getRulePrice(rule, ad));
             });
             // priceDrop & multiPurchases
             let fullPriceQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
             let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
             productPrice = Math.min(productPrice, dealQuantity * ad.price + fullPriceQuantity * priceDropRule.discountedPrice);
           }
+
+
+
+
+          
         });
       totalPrice += productPrice;
     });
@@ -92,6 +96,5 @@ export class Checkout {
       result = result.toString();
     }
     return result;
-
   }
 }

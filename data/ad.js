@@ -1,6 +1,6 @@
 export const ad = [
   {
-    "name": "Classic AD",
+    "name": "Classic Ad",
     "description": "Offers the most basic level of advertisement",
     "retailPrice": 26999
   },
