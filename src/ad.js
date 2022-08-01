@@ -4,4 +4,3 @@ export class Ad {
       this.price = price;
     }
   }
-  

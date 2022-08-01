@@ -15,7 +15,8 @@ export const pricingRules = [
     rules: [
       { rulesType: 'priceDrop', 
         name: 'Stand out Ad', 
-        discountedPrice: 29999 },
+        discountedPrice: 29999,
+      },
     ],
   },
   {
@@ -28,8 +29,9 @@ export const pricingRules = [
         quantityPriceCharge: 4,
       },
       { rulesType: 'priceDrop', 
-        name: 'Classic Ad', 
-        discountedPrice: 38999 },
+        name: 'Premium Ad', 
+        discountedPrice: 38999,
+      },
     ],
   },
 ];

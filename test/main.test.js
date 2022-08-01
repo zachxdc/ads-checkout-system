@@ -8,6 +8,7 @@ import { pricingRules } from '../data/pricingRules';
 describe('Checkout Ads (Coding exercise example scenarios)', () => {
   it('it should calculate the total price of the cart based on the retail price when non-privileged purchases ads', () => {
     function defaultCart() {
+      // Customer id 999 is for a non-privileged customer
       const customerId = '999';
       const checkout = new Checkout(pricingRules);
       checkout.customerId = customerId;
@@ -46,7 +47,7 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
   });
 
   it('it should trigger price drop rule for Axil Coffee Roasters purchases Stand out Ad', () => {
-    function myerCart() {
+    function axilCoffeeRoastersCart() {
       //Axil Coffee Roasters id is 2
       const customerId = '2';
       const checkout = new Checkout(pricingRules);
@@ -63,27 +64,74 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       return checkout.total();
     }
     
-    expect(myerCart()).toBe('1294.96');
+    expect(axilCoffeeRoastersCart()).toBe('1294.96');
   });
 });
 
-const testingAds = [
+const testAds = [
   {
     "name": "Classic Ad",
     "description": "Offers the most basic level of advertisement",
-    "retailPrice": 4599
+    "retailPrice": 4599,
   },
   {
     "name": "Stand out Ad",
     "description": "Allows advertisers to use a company logo and use a longer presentation text",
-    "retailPrice": 62000
+    "retailPrice": 62000,
   },
   {
     "name": "Premium Ad",
     "description": "Same benefits as Standout Ad, but also puts the advertisement at the top of the results, allowing higher visibility",
-    "retailPrice": 41050
+    "retailPrice": 41050,
+  },
+  {
+    "name": "Cheap Ad",
+    "description": "A cheap ad only cost one cent",
+    "retailPrice": 1,
   }
 ]
+
+export const testPricingRules = [
+  {
+    customerId: '1',
+    rules: [
+      {
+        rulesType: 'multiPurchases',
+        name: 'Classic Ad',
+        quantityPriceBase: 3,
+        quantityPriceCharge: 2,
+      },
+    ],
+  },
+  {
+    customerId: '2',
+    rules: [
+      { rulesType: 'priceDrop', 
+        name: 'Stand out Ad', 
+        discountedPrice: 29999,
+      },
+    ],
+  },
+  {
+    customerId: '3',
+    rules: [
+      {
+        rulesType: 'multiPurchases',
+        name: 'Stand out Ad',
+        quantityPriceBase: 5,
+        quantityPriceCharge: 4,
+      },
+      { rulesType: 'priceDrop', 
+        name: 'Premium Ad', 
+        discountedPrice: 38999,
+      },
+      { rulesType: 'priceDrop', 
+      name: 'Stand out Ad',
+      discountedPrice: 189,
+    },
+    ],
+  },
+];
 
 // Unit test
 describe('Checkout Ads', () => {
@@ -91,12 +139,12 @@ describe('Checkout Ads', () => {
     function defaultCart() {
       // Customer id 999 is for unpri
       const customerId = '999';
-      const checkout = new Checkout(pricingRules);
+      const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
     
-      const classicAd = new Ad(testingAds[0].name, testingAds[0].retailPrice);
-      const standOutAd = new Ad(testingAds[1].name, testingAds[1].retailPrice);
-      const premiumAd = new Ad(testingAds[2].name, testingAds[2].retailPrice);
+      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
+      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
+      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
       
       // 3*Classic Ad, 5*Stand out Ad, 2*Premium Ad, 
       checkout.add(classicAd);
@@ -116,27 +164,44 @@ describe('Checkout Ads', () => {
   });
 
   it('it should return 0.00 when cart is empty', () => {
-    function defaultCart() {
+    function emptyCart() {
       const customerId = '999';
-      const checkout = new Checkout(pricingRules);
+      const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
     
       return checkout.total();
     }
     
-    expect(defaultCart()).toBe('0.00');
+    expect(emptyCart()).toBe('0.00');
+  });
+
+  it('it should return 0.01 when any customer buy a cheap ad', () => {
+    function smallAmountCart() {
+      //Axil Coffee Roasters's customer id is 2
+      const customerId = '1';
+      const checkout = new Checkout(testPricingRules);
+      checkout.customerId = customerId;
+    
+      const cheapAd = new Ad(testAds[3].name, testAds[3].retailPrice);
+    
+      // 1*Cheap Ad
+      checkout.add(cheapAd);
+      return checkout.total();
+    }
+    
+    expect(smallAmountCart()).toBe('0.01');
   });
 
   it('it should trigger 3 for 2 rule when SecondBite purhcases more than 3 Classic Ad', () => {
     function secondBiteCart() {
       //SecondBite's customer id is 1
       const customerId = '1';
-      const checkout = new Checkout(pricingRules);
+      const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
     
-      const classicAd = new Ad(testingAds[0].name, testingAds[0].retailPrice);
-      const standOutAd = new Ad(testingAds[1].name, testingAds[1].retailPrice);
-      const premiumAd = new Ad(testingAds[2].name, testingAds[2].retailPrice);
+      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
+      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
+      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
     
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
       checkout.add(classicAd);
@@ -156,15 +221,15 @@ describe('Checkout Ads', () => {
   });
 
   it('it should trigger price drop rule for Axil Coffee Roasters purchases Stand out Ad', () => {
-    function secondBiteCart() {
+    function axilCoffeeRoastersCart() {
       //Axil Coffee Roasters's customer id is 2
       const customerId = '2';
-      const checkout = new Checkout(pricingRules);
+      const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
     
-      const classicAd = new Ad(testingAds[0].name, testingAds[0].retailPrice);
-      const standOutAd = new Ad(testingAds[1].name, testingAds[1].retailPrice);
-      const premiumAd = new Ad(testingAds[2].name, testingAds[2].retailPrice);
+      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
+      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
+      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
     
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
       checkout.add(classicAd);
@@ -180,34 +245,6 @@ describe('Checkout Ads', () => {
       return checkout.total();
     }
     
-    expect(secondBiteCart()).toBe('2094.41');
-  });
-
-  it('it should trigger 5 for 4 rule for Stand out Ads, and NOT trigger lower price rule for Premium Ads when Myer purchases ads', () => {
-    function secondBiteCart() {
-      //Myer's customer id is 3
-      const customerId = '3';
-      const checkout = new Checkout(pricingRules);
-      checkout.customerId = customerId;
-    
-      const classicAd = new Ad(testingAds[0].name, testingAds[0].retailPrice);
-      const standOutAd = new Ad(testingAds[1].name, testingAds[1].retailPrice);
-      const premiumAd = new Ad(testingAds[2].name, testingAds[2].retailPrice);
-    
-      // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(premiumAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      return checkout.total();
-    }
-    
-    expect(secondBiteCart()).toBe('3074.46');
+    expect(axilCoffeeRoastersCart()).toBe('2094.41');
   });
 });

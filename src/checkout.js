@@ -7,7 +7,6 @@ export class Checkout {
   }
 
   add(ad) {
-    console.log(ad)
     const index = this.adCart.findIndex((item) => {
     return item.name === ad.name;
   });
@@ -72,10 +71,7 @@ export class Checkout {
                 priceDropRule = rule;
               }
               // Compare the 
-              console.log(productPrice, 'ppp');
-              console.log(this.getRulePrice(rule, ad), 'ttt');
               productPrice = Math.min(productPrice, this.getRulePrice(rule, ad));
-              console.log(productPrice, 'PPPP2')
             });
             // priceDrop & multiPurchases
             let fullPriceQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
@@ -87,8 +83,9 @@ export class Checkout {
     });
 
     let result = (totalPrice / 100)
-    //If the numbner of decimal is 0 or 1, or their is no item in the cart, make it as 2 for normal price format
-    if ((result === 0) || (result.toString().split(".")[1].length < 2)) {
+    // If there is no item in the cart, or result is an integer, or only has 1 decimal
+    // Round up as 2 decimals for normal price format
+    if ((result === 0) || (Number.isInteger(result)) ||(result.toString().split(".")[1].length < 2)) {
       result = result.toFixed(2);
     } else {
       result = result.toString();

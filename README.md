@@ -62,10 +62,13 @@ There is a small number of privileged customers are eligible to checkout the ads
 
     `node src/main.js`
 
-- Run all unit tests in this directory:
+- Run all unit tests in this repository:
 
     `npm run test`
 
+- Run specific unit test:
+
+    `npm run [test_file_path]`
 ## File Structure
 
     .
@@ -85,12 +88,14 @@ There is a small number of privileged customers are eligible to checkout the ads
     └── README.md
 
 ## Solution design concept
-1. The program is to calculte the total price for all products in a cart, so the main I/O file, `PriceCalculator.py` is create to output the total price for each cart
+1. The design of the project has followed the separation of the logic and data, so users can easily expand new users, new ads, and new pricing rules later while not affect existed functions.
 
-2. The product base price and products in the cart are saved in the JSONfile, so create the `readDatafile.py` to load json file
+2. Attributes are stored in a key-value(object) manner so it will easily add, delete or update the attributes in the future. This also provides convenience for expanding the function in the future
 
-3. Item has its product type, options, and base price. Each item may have different options and different base prices. (For example, a white large hoodie and a white small hoodie may have different prices.) To solve the problem the function in `basePrice.py` file is to get all prices and all options for the product, then match them to get the exact base price
+3. Code splitting for the different functions. It will be more flexible when a part of the algorithm needs to be updated. It will also be easier to maintain because people do not need to read the long codes which be painful to understand.
 
-4.  The function in `cart.py` is to calculate total price for one product in the cart and total price of all products in the cart
+4. When a customer has multiple pricing rules for a product, the program will assign the cheapest deal plan to check out and it will not allow to hybrid of the two deals for a checkout.
+e.g. Classic Ad is $100. The customer, David has promotions for Classic Ad with discounted price is $1, and a 5 for 4 offer. In the case when David purchases 10 Classic Ads, the price is $1 * 10 = $10, NOT (10 / 5) * 4 * 100 = $800.
 
-5. Apply the built in unittest for automation test 
+## Limitation
+1. There is no validation on the data or params used for functions, which means that the program cannot handle inappropriate input.
