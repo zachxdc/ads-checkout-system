@@ -4,7 +4,7 @@ export const pricingRules = [
     rules: [
       {
         rulesType: 'multiPurchases',
-        name: 'Classic AD',
+        name: 'Classic Ad',
         quantityPriceBase: 3,
         quantityPriceCharge: 2,
       },
@@ -14,7 +14,7 @@ export const pricingRules = [
     customerId: '2',
     rules: [
       { rulesType: 'priceDrop', 
-        name: 'Stand out Ads', 
+        name: 'Stand out Ad', 
         discountedPrice: 29999 },
     ],
   },
@@ -23,12 +23,12 @@ export const pricingRules = [
     rules: [
       {
         rulesType: 'multiPurchases',
-        name: 'Stand out Ads',
+        name: 'Stand out Ad',
         quantityPriceBase: 5,
         quantityPriceCharge: 4,
       },
       { rulesType: 'priceDrop', 
-        name: 'Classic AD', 
+        name: 'Classic Ad', 
         discountedPrice: 38999 },
     ],
   },
