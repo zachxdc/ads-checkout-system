@@ -3,7 +3,7 @@ export const pricingRules = [
     customerId: '1',
     rules: [
       {
-        rulesType: 'multiPurchases',
+        rulesType: 'multiPurchase',
         name: 'Classic Ad',
         quantityPriceBase: 3,
         quantityPriceCharge: 2,
@@ -23,7 +23,7 @@ export const pricingRules = [
     customerId: '3',
     rules: [
       {
-        rulesType: 'multiPurchases',
+        rulesType: 'multiPurchase',
         name: 'Stand out Ad',
         quantityPriceBase: 5,
         quantityPriceCharge: 4,

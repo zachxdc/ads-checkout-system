@@ -15,10 +15,8 @@ function main() {
   const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
   
   checkout.add(classicAd);
-  checkout.add(classicAd);
-  checkout.add(classicAd);
-  // checkout.add(standOutAd);
-  // checkout.add(premiumAd);
+  checkout.add(standOutAd);
+  checkout.add(premiumAd);
 
   return checkout.total();
 }

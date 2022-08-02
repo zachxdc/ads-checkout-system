@@ -23,17 +23,16 @@ export class Checkout {
   }
 
   getRulePrice(rule, ad) {
-    console.log('R', rule);
-    console.log('AD', ad);
 
     let rulePrice = 0;
     switch (rule.rulesType) {
-      case 'multiPurchases':
+      case 'multiPurchase':
         let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
         let dealQuantity = Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
         rulePrice = (fullPriceQuantity + dealQuantity) * ad.retailPrice;
         break;
       case 'priceDrop':
+        // Prevent the discounted price is set higher than the retail price 
         rulePrice = Math.min(ad.retailPrice, rule.discountedPrice) * ad.quantity;
         break;
       default:
@@ -49,7 +48,7 @@ export class Checkout {
     this.adCart.forEach((ad) => {
       productPrice = ad.retailPrice * ad.quantity;
       // For each ad
-      pricingRules
+      this.pricingRules
         .filter((pricingRule) => {
           // Find pricing rules that match the specific customer
           return pricingRule.customerId === this.customerId;
@@ -67,7 +66,7 @@ export class Checkout {
             let multiPurchasesRule;
             let priceDropRule;
             rules.forEach((rule) => {
-              if (rule.rulesType === 'multiPurchases') {
+              if (rule.rulesType === 'multiPurchase') {
                 multiPurchasesRule = rule;
               }
               if (rule.rulesType === 'priceDrop') {
@@ -76,7 +75,7 @@ export class Checkout {
               // Compare the 
               productPrice = Math.min(productPrice, this.getRulePrice(rule, ad));
             });
-            // priceDrop & multiPurchases
+            // priceDrop & multiPurchase
             let fullPriceQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
             let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
             productPrice = Math.min(productPrice, dealQuantity * ad.retailPrice + fullPriceQuantity * priceDropRule.discountedPrice);

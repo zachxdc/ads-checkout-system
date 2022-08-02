@@ -91,7 +91,7 @@ const testPricingRules = [
     customerId: '1',
     rules: [
       {
-        rulesType: 'multiPurchases',
+        rulesType: 'multiPurchase',
         name: 'Classic Ad',
         quantityPriceBase: 3,
         quantityPriceCharge: 2,
@@ -111,7 +111,7 @@ const testPricingRules = [
     customerId: '3',
     rules: [
       {
-        rulesType: 'multiPurchases',
+        rulesType: 'multiPurchase',
         name: 'Stand out Ad',
         quantityPriceBase: 5,
         quantityPriceCharge: 4,
@@ -122,7 +122,22 @@ const testPricingRules = [
       },
       { rulesType: 'priceDrop', 
       name: 'Stand out Ad',
-      discountedPrice: 189,
+      discountedPrice: 199,
+    },
+    ],
+  },
+  {
+    customerId: '4',
+    rules: [
+      {
+        rulesType: 'multiPurchase',
+        name: 'Stand out Ad',
+        quantityPriceBase: 3,
+        quantityPriceCharge: 2,
+      },
+      { rulesType: 'priceDrop', 
+      name: 'Stand out Ad',
+      discountedPrice: 50000,
     },
     ],
   },
@@ -171,8 +186,7 @@ describe('Checkout Ads', () => {
   });
 
   it('it should return 0.01 when any customer buy a cheap ad', () => {
-    function smallAmountCart() {
-      //Axil Coffee Roasters's customer id is 2
+    function testCart() {
       const customerId = '1';
       const checkout = new Checkout(testPricingRules);
       const test_cheapAd = new Ad(testAds[3].name, testAds[3].retailPrice);
@@ -183,12 +197,11 @@ describe('Checkout Ads', () => {
       return checkout.total();
     }
     
-    expect(smallAmountCart()).toBe('0.01');
+    expect(testCart()).toBe('0.01');
   });
 
   it('it should trigger 3 for 2 rule when SecondBite purhcases more than 3 Classic Ad', () => {
-    function secondBiteCart() {
-      //SecondBite's customer id is 1
+    function testCart() {
       const customerId = '1';
       const checkout = new Checkout(testPricingRules);    
     
@@ -207,22 +220,16 @@ describe('Checkout Ads', () => {
       return checkout.total();
     }
     
-    expect(secondBiteCart()).toBe('3648.47');
+    expect(testCart()).toBe('3648.47');
   });
 
-  it('it should trigger price drop rule for Axil Coffee Roasters purchases Stand out Ad', () => {
-    function axilCoffeeRoastersCart() {
-      //Axil Coffee Roasters's customer id is 2
-      const customerId = '2';
+  it('it should trigger price drop rule for Myer purchases when 5 Stand out Ads', () => {
+    function testCart() {
+      const customerId = '3';
       const checkout = new Checkout(testPricingRules);
 
       checkout.customerId = customerId;
-      // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
-      checkout.add(test_classicAd);
-      checkout.add(test_classicAd);
-      checkout.add(test_classicAd);
-      checkout.add(test_classicAd);
-      checkout.add(test_premiumAd);
+      // 5*Stand out Ad
       checkout.add(test_standOutAd);
       checkout.add(test_standOutAd);
       checkout.add(test_standOutAd);
@@ -231,6 +238,23 @@ describe('Checkout Ads', () => {
       return checkout.total();
     }
     
-    expect(axilCoffeeRoastersCart()).toBe('2094.41');
+    expect(testCart()).toBe('9.95');
+  });
+
+  it('it should trigger 5 for 4 and price drop rule for customer purchases when 5 Stand out Ads', () => {
+    function testCart() {
+      const customerId = '4';
+      const checkout = new Checkout(testPricingRules);
+
+      checkout.customerId = customerId;
+      // 5*Stand out Ad
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      return checkout.total();
+    }
+    
+    expect(testCart()).toBe('1740.00');
   });
 });

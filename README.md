@@ -77,7 +77,8 @@ There is a small number of privileged customers are eligible to checkout the ads
     │   ├── index.js
     │   ├── main.js
     ├── test
-    │   ├── main.test.py
+    │   ├── checkout.test.py
+    │   ├── main.test.js
     ├── package-lock.json
     ├── package.json
     └── README.md
@@ -85,12 +86,15 @@ There is a small number of privileged customers are eligible to checkout the ads
 ## Solution design concept
 1. The design of the project has followed the separation of the logic and data, so users can easily expand new users, new ads, and new pricing rules later while not affect existed functions.
 
-2. Attributes are stored in a key-value(object) manner so it will easily add, delete or update the attributes in the future. This also provides convenience for expanding the function in the future
+2. Attributes are stored in a key-value(object) manner so it will easily add, delete or update the attributes in the future. This also provides convenience for expanding the function in the future.
 
 3. Code splitting for the different functions. It will be more flexible when a part of the algorithm needs to be updated. It will also be easier to maintain because people do not need to read the long codes which be painful to understand.
 
-4. When a customer has multiple pricing rules for a product, the program will assign the cheapest deal plan to check out and it will not allow to hybrid of the two deals for a checkout.
-e.g. Classic Ad is $100. The customer, David has promotions for Classic Ad with discounted price is $1, and a 5 for 4 offer. In the case when David purchases 10 Classic Ads, the price is $1 * 10 = $10, NOT (10 / 5) * 4 * 100 = $800.
+4. When a customer has multiple pricing rules for a product, the program will assign the cheapest deal plan to check out. It allow user to hyrid different discount plans for a product in a checkout.
+e.g. Classic Ad is $100. The customer, David has promotions for Classic Ad with discounted price is $1, and a 5 for 4 offer. In the case when David purchases 6 Classic Ads, the price is $1 * 6 = $6.
+e.g. Classic Ad is $100. The customer, David has promotions for Classic Ad with discounted price is $90, and a 5 for 4 offer. In the case when David purchases 6 Classic Ads, the price is $100 * (5-1) + $90 = $490.
+
+5. Pricing rules are flexible to add, edit and remove by simply editing the function in `main.js`.
 
 ## Limitation
 1. There is no validation on the data or params used for functions, which means that the program cannot handle inappropriate input.
