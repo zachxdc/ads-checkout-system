@@ -1,6 +1,6 @@
 export class Ad {
-    constructor(name, retailPrice) {
-      this.name = name;
-      this.retailPrice = retailPrice;
-    }
+  constructor(name, retailPrice) {
+    this.name = name;
+    this.retailPrice = retailPrice;
   }
+}
