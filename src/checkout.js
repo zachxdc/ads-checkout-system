@@ -23,6 +23,9 @@ export class Checkout {
   }
 
   getRulePrice(rule, ad) {
+    console.log('R', rule);
+    console.log('AD', ad);
+
     let rulePrice = 0;
     switch (rule.rulesType) {
       case 'multiPurchases':

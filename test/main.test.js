@@ -15,8 +15,8 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       // Customer id 999 is for a non-privileged customer
       const customerId = '999';
       const checkout = new Checkout(pricingRules);
+
       checkout.customerId = customerId;
-    
       checkout.add(classicAd);
       checkout.add(standOutAd);
       checkout.add(premiumAd);
@@ -31,8 +31,8 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       //SecondBite's customer id is 1
       const customerId = '1';
       const checkout = new Checkout(pricingRules);
+
       checkout.customerId = customerId;
-    
       checkout.add(classicAd);
       checkout.add(classicAd);
       checkout.add(classicAd);
@@ -48,8 +48,8 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       //Axil Coffee Roasters id is 2
       const customerId = '2';
       const checkout = new Checkout(pricingRules);
+
       checkout.customerId = customerId;
-    
       checkout.add(standOutAd);
       checkout.add(standOutAd);
       checkout.add(standOutAd);
@@ -138,8 +138,8 @@ describe('Checkout Ads', () => {
       // Customer id 999 is for unpri
       const customerId = '999';
       const checkout = new Checkout(testPricingRules);
+
       checkout.customerId = customerId;
-      
       // 3*Classic Ad, 5*Stand out Ad, 2*Premium Ad, 
       checkout.add(test_classicAd);
       checkout.add(test_premiumAd);
@@ -161,6 +161,7 @@ describe('Checkout Ads', () => {
     function emptyCart() {
       const customerId = '999';
       const checkout = new Checkout(testPricingRules);
+
       checkout.customerId = customerId;
     
       return checkout.total();
@@ -174,10 +175,9 @@ describe('Checkout Ads', () => {
       //Axil Coffee Roasters's customer id is 2
       const customerId = '1';
       const checkout = new Checkout(testPricingRules);
-      checkout.customerId = customerId;
-    
       const test_cheapAd = new Ad(testAds[3].name, testAds[3].retailPrice);
-    
+
+      checkout.customerId = customerId;
       // 1*Cheap Ad
       checkout.add(test_cheapAd);
       return checkout.total();
@@ -190,13 +190,9 @@ describe('Checkout Ads', () => {
     function secondBiteCart() {
       //SecondBite's customer id is 1
       const customerId = '1';
-      const checkout = new Checkout(testPricingRules);
+      const checkout = new Checkout(testPricingRules);    
+    
       checkout.customerId = customerId;
-    
-      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
-      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
-      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
-    
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
       checkout.add(test_classicAd);
       checkout.add(test_classicAd);
@@ -219,12 +215,8 @@ describe('Checkout Ads', () => {
       //Axil Coffee Roasters's customer id is 2
       const customerId = '2';
       const checkout = new Checkout(testPricingRules);
+
       checkout.customerId = customerId;
-    
-      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
-      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
-      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
-    
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
       checkout.add(test_classicAd);
       checkout.add(test_classicAd);
