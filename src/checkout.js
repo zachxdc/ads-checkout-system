@@ -23,20 +23,20 @@ export class Checkout {
   }
 
   getRulePrice(rule, ad) {
-    let retailPrice = 0;
+    let rulePrice = 0;
     switch (rule.rulesType) {
       case 'multiPurchases':
         let fullPriceQuantity = ad.quantity % rule.quantityPriceBase;
         let dealQuantity = Math.floor(ad.quantity / rule.quantityPriceBase) * rule.quantityPriceCharge;
-        retailPrice = (fullPriceQuantity + dealQuantity) * ad.price;
+        rulePrice = (fullPriceQuantity + dealQuantity) * ad.retailPrice;
         break;
       case 'priceDrop':
-        retailPrice = Math.min(ad.price, rule.discountedPrice) * ad.quantity;
+        rulePrice = Math.min(ad.retailPrice, rule.discountedPrice) * ad.quantity;
         break;
       default:
         break;
     }
-    return retailPrice;
+    return rulePrice;
   };
 
   total() {
@@ -44,7 +44,7 @@ export class Checkout {
     let totalPrice = 0;
 
     this.adCart.forEach((ad) => {
-      productPrice = ad.price * ad.quantity;
+      productPrice = ad.retailPrice * ad.quantity;
       // For each ad
       pricingRules
         .filter((pricingRule) => {
@@ -76,7 +76,7 @@ export class Checkout {
             // priceDrop & multiPurchases
             let fullPriceQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
             let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
-            productPrice = Math.min(productPrice, dealQuantity * ad.price + fullPriceQuantity * priceDropRule.discountedPrice);
+            productPrice = Math.min(productPrice, dealQuantity * ad.retailPrice + fullPriceQuantity * priceDropRule.discountedPrice);
           }
         });
       totalPrice += productPrice;

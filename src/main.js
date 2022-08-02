@@ -5,6 +5,8 @@ import { pricingRules } from '../data/pricingRules.js';
 
 function main() {
   const customerId = '3';
+
+  // It is not necessary to have param pricingRules for new Checkout() because it was already imported
   const checkout = new Checkout(pricingRules);
   checkout.customerId = customerId;
 

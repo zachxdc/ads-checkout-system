@@ -13,14 +13,14 @@ Currently system has 3 kinds of ads:
 
 There is a small number of privileged customers are eligible to checkout the ads with special pricing rules:
 1. SecondBite
-    * Gets a **3** for **2** deal on **Classic Ads**
+    - Gets a **3** for **2** deal on **Classic Ads**
 
 2. Axil Coffee Roasters
-    * Gets a discount on **Standout Ads** where the price drops to **$299.99** per ad
+    - Gets a discount on **Standout Ads** where the price drops to **$299.99** per ad
 
 3. MYER
-    * Gets a **5 for 4** deal on **Stand out Ads**
-    * Gets a discount on **Premium Ads** where the price drops to **$389.99** per ad 
+    - Gets a **5 for 4** deal on **Stand out Ads**
+    - Gets a discount on **Premium Ads** where the price drops to **$389.99** per ad 
 
 ## Prerequisite
 

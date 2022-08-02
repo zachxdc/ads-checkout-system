@@ -5,6 +5,10 @@ import { Checkout } from '../src/checkout.js';
 import { pricingRules } from '../data/pricingRules';
 
 // Example scenarios
+const classicAd = new Ad(ads[0].name, ads[0].retailPrice);
+const standOutAd = new Ad(ads[1].name, ads[1].retailPrice);
+const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
+
 describe('Checkout Ads (Coding exercise example scenarios)', () => {
   it('it should calculate the total price of the cart based on the retail price when non-privileged purchases ads', () => {
     function defaultCart() {
@@ -12,10 +16,6 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       const customerId = '999';
       const checkout = new Checkout(pricingRules);
       checkout.customerId = customerId;
-    
-      const classicAd = new Ad(ads[0].name, ads[0].retailPrice);
-      const standOutAd = new Ad(ads[1].name, ads[1].retailPrice);
-      const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
     
       checkout.add(classicAd);
       checkout.add(standOutAd);
@@ -32,9 +32,6 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       const customerId = '1';
       const checkout = new Checkout(pricingRules);
       checkout.customerId = customerId;
-    
-      const classicAd = new Ad(ads[0].name, ads[0].retailPrice);
-      const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
     
       checkout.add(classicAd);
       checkout.add(classicAd);
@@ -53,9 +50,6 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
       const checkout = new Checkout(pricingRules);
       checkout.customerId = customerId;
     
-      const standOutAd = new Ad(ads[1].name, ads[1].retailPrice);
-      const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
-    
       checkout.add(standOutAd);
       checkout.add(standOutAd);
       checkout.add(standOutAd);
@@ -68,6 +62,7 @@ describe('Checkout Ads (Coding exercise example scenarios)', () => {
   });
 });
 
+// Unit test
 const testAds = [
   {
     "name": "Classic Ad",
@@ -91,7 +86,7 @@ const testAds = [
   }
 ]
 
-export const testPricingRules = [
+const testPricingRules = [
   {
     customerId: '1',
     rules: [
@@ -133,7 +128,10 @@ export const testPricingRules = [
   },
 ];
 
-// Unit test
+const test_classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
+const test_standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
+const test_premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
+
 describe('Checkout Ads', () => {
   it('it should calculate the total price of the cart based on the retail price of all ads', () => {
     function defaultCart() {
@@ -141,22 +139,18 @@ describe('Checkout Ads', () => {
       const customerId = '999';
       const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
-    
-      const classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
-      const standOutAd = new Ad(testAds[1].name, testAds[1].retailPrice);
-      const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
       
       // 3*Classic Ad, 5*Stand out Ad, 2*Premium Ad, 
-      checkout.add(classicAd);
-      checkout.add(premiumAd);
-      checkout.add(classicAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(premiumAd);
-      checkout.add(classicAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_premiumAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_premiumAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
       return checkout.total();
     }
     
@@ -182,10 +176,10 @@ describe('Checkout Ads', () => {
       const checkout = new Checkout(testPricingRules);
       checkout.customerId = customerId;
     
-      const cheapAd = new Ad(testAds[3].name, testAds[3].retailPrice);
+      const test_cheapAd = new Ad(testAds[3].name, testAds[3].retailPrice);
     
       // 1*Cheap Ad
-      checkout.add(cheapAd);
+      checkout.add(test_cheapAd);
       return checkout.total();
     }
     
@@ -204,16 +198,16 @@ describe('Checkout Ads', () => {
       const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
     
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(premiumAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_premiumAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
       return checkout.total();
     }
     
@@ -232,16 +226,16 @@ describe('Checkout Ads', () => {
       const premiumAd = new Ad(testAds[2].name, testAds[2].retailPrice);
     
       // 4*Classic Ad, 5*Stand out Ad, 1*Premium Ad, 
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(classicAd);
-      checkout.add(premiumAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
-      checkout.add(standOutAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_premiumAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
       return checkout.total();
     }
     
