@@ -200,7 +200,7 @@ describe('Checkout Ads', () => {
     expect(testCart()).toBe('0.01');
   });
 
-  it('it should trigger 3 for 2 rule when SecondBite purhcases more than 3 Classic Ad', () => {
+  it('it should trigger 3 for 2 rule when customer 1 purchases more than 3 Classic Ad', () => {
     function testCart() {
       const customerId = '1';
       const checkout = new Checkout(testPricingRules);    
@@ -223,7 +223,25 @@ describe('Checkout Ads', () => {
     expect(testCart()).toBe('3648.47');
   });
 
-  it('it should trigger price drop rule for Myer purchases when 5 Stand out Ads', () => {
+  it('it should trigger price drop rule for customer 2 purchases when any Stand out Ads', () => {
+    function testCart() {
+      const customerId = '2';
+      const checkout = new Checkout(testPricingRules);
+
+      checkout.customerId = customerId;
+      // 5*Stand out Ad
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      checkout.add(test_standOutAd);
+      return checkout.total();
+    }
+    
+    expect(testCart()).toBe('1499.95');
+  });
+
+  it('it should trigger price drop rule for customer 3 purchases when 5 Stand out Ads', () => {
     function testCart() {
       const customerId = '3';
       const checkout = new Checkout(testPricingRules);
@@ -241,13 +259,13 @@ describe('Checkout Ads', () => {
     expect(testCart()).toBe('9.95');
   });
 
-  it('it should trigger 5 for 4 and price drop rule for customer purchases when 5 Stand out Ads', () => {
+  it('it should combine 3 for 2 and price drop rule for customer 4 purchases when 4 Stand out Ads', () => {
     function testCart() {
       const customerId = '4';
       const checkout = new Checkout(testPricingRules);
 
       checkout.customerId = customerId;
-      // 5*Stand out Ad
+      // 4*Stand out Ad
       checkout.add(test_standOutAd);
       checkout.add(test_standOutAd);
       checkout.add(test_standOutAd);
