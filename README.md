@@ -4,7 +4,7 @@
 
 The repository's project is for customers to calculate the total price when purchasing one or multiple ads. 
 
-Currently system has 3 kinds of ads:
+Currently, system has 3 kinds of ads:
 | Name | Description | Retail Price |
 |:---- |:----------- | ------------:|
 | Classic Ad | Offers the most basic level of advertisement | $269.99 |
@@ -53,16 +53,16 @@ There is a small number of privileged customers are eligible to checkout the ads
     To add a Premium Ad: `checkout.add(premiumAd);`.
 
 3. Run with npm script:
-    `npm start`
-
-4. Run with node:
-    `node src/main.js`
+    `npm start`  
+OR  
+   Run with node:
+    `node src/main.js`  
 
 5. Run all unit tests in this repository:
-    `npm run test`
+    `npm test`
 
 6. Run specific unit test:
-    `npm run [test_file_path]`
+    `npm test [test_file_path]`
 
 ## File Structure
 
