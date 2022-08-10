@@ -23,6 +23,8 @@ export class Checkout {
   }
 
   getRulePrice(rule, ad) {
+    console.log(rule, 'rules');
+    console.log(ad, 'ad');
     let rulePrice = 0;
     switch (rule.rulesType) {
       case 'multiPurchase':
@@ -33,6 +35,14 @@ export class Checkout {
       case 'priceDrop':
         // Ad original price vs. Ad discounted price
         rulePrice = Math.min(ad.retailPrice, rule.discountedPrice) * ad.quantity;
+        break;
+      case 'thresholdSale':
+        // thresholdSale
+        if(ad.quantity > rule.threshold && rule.thresholdType === 'over'){
+          rulePrice = Math.min(ad.retailPrice, rule.discountedPrice) * ad.quantity;
+        } else {
+          rulePrice = ad.retailPrice * ad.quantity;
+        }
         break;
       default:
         break;
@@ -64,6 +74,7 @@ export class Checkout {
             // If the customer contains multiple pricing rules
             let multiPurchasesRule;
             let priceDropRule;
+            let thresholdSaleRule;
             rules.forEach((rule) => {
               if (rule.rulesType === 'multiPurchase') {
                 multiPurchasesRule = rule;
@@ -71,15 +82,20 @@ export class Checkout {
               if (rule.rulesType === 'priceDrop') {
                 priceDropRule = rule;
               }
+              if (rule.rulesType === 'thresholdSale') {
+                thresholdSaleRule = rule;
+              }
               // Current lowest total price * quantity vs. Next price deal total price 
               adPrice = Math.min(adPrice, this.getRulePrice(rule, ad));
             });
             // Combined two deal in one checkout
-            let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
-            let restQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
-            let combinedDeal = (dealQuantity * ad.retailPrice) + (restQuantity * priceDropRule.discountedPrice)
-            // Current lowest price vs. Combined deal total price
-            adPrice = Math.min(adPrice, combinedDeal);
+            if(multiPurchasesRule && priceDropRule) {
+              let dealQuantity = Math.floor(ad.quantity / multiPurchasesRule.quantityPriceBase) * multiPurchasesRule.quantityPriceCharge;
+              let restQuantity = ad.quantity % multiPurchasesRule.quantityPriceBase;
+              let combinedDeal = (dealQuantity * ad.retailPrice) + (restQuantity * priceDropRule.discountedPrice);
+              // Current lowest price vs. Combined deal total price
+              adPrice = Math.min(adPrice, combinedDeal);
+            }
           }
         });
       totalPrice += adPrice;
@@ -88,11 +104,14 @@ export class Checkout {
     let result = (totalPrice / 100)
     // If there is no item in the cart, or result is an integer, or only has 1 decimal
     // Round up as 2 decimals for normal price format
-    if ((result === 0) || (Number.isInteger(result)) ||(result.toString().split(".")[1].length < 2)) {
-      result = result.toFixed(2);
-    } else {
-      result = result.toString();
-    }
+
+    // if ((result === 0) || (Number.isInteger(result)) ||(result.toString().split(".")[1].length < 2)) {
+    //   result = result.toFixed(2);
+
+      result = (Math.round((result + Number.EPSILON) * 100) / 100).toFixed(2)
+    // } else {
+    //   result = result.toString();
+    // }
     return result;
   }
 }

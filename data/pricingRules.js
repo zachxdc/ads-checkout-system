@@ -20,7 +20,7 @@ export const pricingRules = [
     ],
   },
   {
-    customerId: '3',
+    customerId: '3', 
     rules: [
       {
         rulesType: 'multiPurchase',
@@ -28,9 +28,28 @@ export const pricingRules = [
         quantityPriceBase: 5,
         quantityPriceCharge: 4,
       },
-      { rulesType: 'priceDrop', 
+      { 
+        rulesType: 'priceDrop', 
         name: 'Premium Ad', 
         discountedPrice: 38999,
+      },
+      { 
+        rulesType: 'thresholdSale', 
+        threshold: 2,
+        thresholdType: 'over',
+        name: 'Classic Ad', 
+        discountedPrice: 24999,
+      },
+    ],
+  },
+  {
+    customerId: '4', 
+    rules: [
+      { rulesType: 'thresholdSale', 
+        threshold: 3,
+        thresholdType: 'over',
+        name: 'Premium Ad', 
+        discountedPrice: 37999,
       },
     ],
   },

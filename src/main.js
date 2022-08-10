@@ -4,7 +4,7 @@ import { ads } from '../data/ads.js';
 import { pricingRules } from '../data/pricingRules.js';
 
 function main() {
-  const customerId = '1';
+  const customerId = '3';
 
   // It is not necessary to have param pricingRules for new Checkout() because it was already imported
   const checkout = new Checkout(pricingRules);
@@ -14,9 +14,12 @@ function main() {
   const standOutAd = new Ad(ads[1].name, ads[1].retailPrice);
   const premiumAd = new Ad(ads[2].name, ads[2].retailPrice);
   
+  // checkout.add(classicAd);
+  // checkout.add(standOutAd);
   checkout.add(classicAd);
-  checkout.add(standOutAd);
-  checkout.add(premiumAd);
+  checkout.add(classicAd);
+  checkout.add(classicAd);
+  checkout.add(classicAd);
 
   return checkout.total();
 }

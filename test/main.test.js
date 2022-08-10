@@ -141,6 +141,18 @@ const testPricingRules = [
     },
     ],
   },
+  {
+    customerId: '5',
+    rules: [
+      { 
+        rulesType: 'thresholdSale', 
+        threshold: 2,
+        thresholdType: 'over',
+        name: 'Classic Ad', 
+        discountedPrice: 599,
+      },
+    ],
+  },
 ];
 
 const test_classicAd = new Ad(testAds[0].name, testAds[0].retailPrice);
@@ -275,4 +287,34 @@ describe('Checkout Ads', () => {
     
     expect(testCart()).toBe('1740.00');
   });
+  it('it should calculate the classic ad as discounted price($5.99) when customer purchases 3 or more classic ads ', () => {
+    function testCart() {
+      const customerId = '5';
+      const checkout = new Checkout(testPricingRules);
+
+      checkout.customerId = customerId;
+      // 4*Classic Ads
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      return checkout.total();
+    }
+    
+    expect(testCart()).toBe('23.96');
+  });
+  it('it should calculate the classic ad as retail price($45.99) when customer purchases less 3 ads', () => {
+    function testCart() {
+      const customerId = '5';
+      const checkout = new Checkout(testPricingRules);
+
+      checkout.customerId = customerId;
+      // 4*Classic Ads
+      checkout.add(test_classicAd);
+      checkout.add(test_classicAd);
+      return checkout.total();
+    }
+    
+    expect(testCart()).toBe('91.98');
+  }); 
 });

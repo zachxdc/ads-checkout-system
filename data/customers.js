@@ -10,5 +10,9 @@ export const customers = [
   {
     "id": "3",
     "name": "MYER",
+  },
+  {
+    "id": "4",
+    "name": "Jora",
   }
 ]
