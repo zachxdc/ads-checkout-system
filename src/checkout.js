@@ -101,8 +101,6 @@ export class Checkout {
       totalPrice += adPrice;
     });
 
-    console.log('3');
-
     let result = (totalPrice / 100)
     // If there is no item in the cart, or result is an integer, or only has 1 decimal
     // Round up as 2 decimals for normal price format
